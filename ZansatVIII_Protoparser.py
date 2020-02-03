@@ -22,6 +22,9 @@ class Line():
     HeightC = 0.0
     Fallflag = False
     Validity = False 
+    def __str__(self):
+        return str(self.LARR)
+    
     def App(self):
         if len(self.LARR) == len(APP):
             self.Temper = self.LARR[0]
@@ -59,13 +62,22 @@ class Line():
 if __name__ == "__main__" : 
     #import matplotlib as ma 
     #import pyserial as ps 
-    if input("from file? Y/N \n") == 'Y':
+    if True or input("from file? Y/N \n") == 'Y' :
         inp = open("zansattest_2.txt", 'r')
-        push = inp.readlines()
+        if os.path.exists('./_temp.txt'):
+             os.remove("./_temp.txt")
+        temp = open("./_temp.txt",'w')
+        push = inp.read()
         linelist = []
-        for l in range(0,len(push)):
-            linelist.append(Line(push[l]))
-        print(linelist)
+        point = 0
+        prev = 0 
+        while point < len(push):
+         point = push.find("\n",prev)
+         linelist.append(Line(push[prev:point-1]))
+         prev = point + 1
+         temp.write(str(linelist[-1])+"\n")
+    
+    
 
     
     
